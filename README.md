@@ -11,10 +11,6 @@
 
 ###
 
-<h5 align="left">Back-End</h5>
-
-###
-
 <div align="center">
  <img  alt="Java" src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white"/>&nbsp;
  <img alt="python" src="https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white"/>&nbsp;
