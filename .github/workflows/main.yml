@@ -3,10 +3,10 @@ name: generate pacman game
 on:
   schedule:
     - cron: "0 */24 * * *"   # roda 1x por dia
-  workflow_dispatch:          # permite rodar manualmente
-  push:
+  workflow_dispatch:         # permite rodar manualmente
+  push:                      # roda quando fizer push na main
     branches:
-      - main                  # roda quando você fizer push na main
+      - main
 
 jobs:
   generate:
@@ -27,7 +27,7 @@ jobs:
       - name: Push generated SVG to output branch
         uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
-          target_branch: output      # branch onde os SVGs serão gerados
-          build_dir: dist            # pasta onde os SVGs são criados
+          target_branch: output
+          build_dir: dist    # CORREÇÃO AQUI!!!
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
