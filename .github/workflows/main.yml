@@ -1,72 +1,12 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
-
-          name: generate pacman game
-
-on:
-schedule: # Run automatically every 24 hours
-    - cron: "0 */24 * * *"
-workflow_dispatch: # Allows manual triggering
-push: # Runs on every push to the main branch
-    branches:
-    - main
-
-jobs:
-generate:
-    permissions:
-    contents: write
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-
-    steps:
-    - name: generate pacman-contribution-graph.svg
-        uses: abozanona/pacman-contribution-graph@main
-        with:
-        github_user_name: ${{ github.repository_owner }}
-
-    name: generate pacman game
+name: generate pacman game
 
 on:
   schedule:
-    - cron: "0 */24 * * *"
-  workflow_dispatch:
+    - cron: "0 */24 * * *"   # roda 1x por dia
+  workflow_dispatch:          # permite rodar manualmente
   push:
     branches:
-      - main
+      - main                  # roda quando você fizer push na main
 
 jobs:
   generate:
@@ -76,15 +16,18 @@ jobs:
     timeout-minutes: 5
 
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
       - name: Generate pacman-contribution-graph
         uses: abozanona/pacman-contribution-graph@main
         with:
           github_user_name: ${{ github.repository_owner }}
 
-      - name: Push generated SVG to output
+      - name: Push generated SVG to output branch
         uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
-          target_branch: output
-          build_dir: dist
+          target_branch: output      # branch onde os SVGs serão gerados
+          build_dir: dist            # pasta onde os SVGs são criados
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
